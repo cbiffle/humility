@@ -310,10 +310,6 @@ pub fn print_tasks(
 
         let keep_halted = stack || registers || panicked;
 
-        if !keep_halted {
-            core.run()?;
-        }
-
         writeln!(
             w,
             "system time = {}",
@@ -480,9 +476,7 @@ pub fn print_tasks(
             )?;
         }
 
-        if keep_halted {
-            core.run()?;
-        }
+        core.run()?;
 
         if task_arg.is_some() && !found {
             bail!("\"{}\" is not a valid task", task_arg.unwrap());
