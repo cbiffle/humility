@@ -3679,10 +3679,6 @@ impl HubrisArchive {
         }
     }
 
-    pub fn unhalted_reads(&self) -> bool {
-        false
-    }
-
     /// Reads the auxiliary flash data from a Hubris archive
     ///
     /// Returns `Ok(Some(...))` if the data is loaded, `Ok(None)` if the file

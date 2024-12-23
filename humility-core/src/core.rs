@@ -219,7 +219,6 @@ pub struct ProbeCore {
     pub vendor_id: u16,
     pub product_id: u16,
     pub serial_number: Option<String>,
-    unhalted_reads: bool,
     halted: u32,
     unhalted_read: BTreeMap<u32, u32>,
     can_flash: bool,
@@ -232,7 +231,6 @@ impl ProbeCore {
         vendor_id: u16,
         product_id: u16,
         serial_number: Option<String>,
-        unhalted_reads: bool,
         can_flash: bool,
     ) -> Self {
         Self {
@@ -241,7 +239,6 @@ impl ProbeCore {
             vendor_id,
             product_id,
             serial_number,
-            unhalted_reads,
             halted: 0,
             unhalted_read: humility_arch_arm::unhalted_read_regions(),
             can_flash,
@@ -252,26 +249,16 @@ impl ProbeCore {
         &mut self,
         mut func: impl FnMut(&mut probe_rs::Core) -> Result<()>,
     ) -> Result<()> {
-        let mut core = self.session.core(0)?;
+        self.halt()?;
 
-        if self.unhalted_reads {
+        let rval = {
+            let mut core = self.session.core(0)?;
             func(&mut core)
-        } else {
-            let halted = if self.halted == 0 && !core.core_halted()? {
-                core.halt(std::time::Duration::from_millis(1000))?;
-                true
-            } else {
-                false
-            };
+        };
 
-            let rval = func(&mut core);
+        self.run()?;
 
-            if halted {
-                core.run()?;
-            }
-
-            rval
-        }
+        rval
     }
 }
 
@@ -534,17 +521,13 @@ impl Core for ProbeCore {
     }
 
     fn op_start(&mut self) -> Result<()> {
-        if !self.unhalted_reads {
-            self.halt()?;
-        }
+        self.halt()?;
 
         Ok(())
     }
 
     fn op_done(&mut self) -> Result<()> {
-        if !self.unhalted_reads {
-            self.run()?;
-        }
+        self.run()?;
 
         Ok(())
     }
@@ -1643,7 +1626,6 @@ pub fn attach_to_chip(
                 probe_info.vendor_id,
                 probe_info.product_id,
                 probe_info.serial_number,
-                hubris.unhalted_reads(),
                 can_flash,
             )))
         }
@@ -1715,7 +1697,6 @@ pub fn attach_to_chip(
                     vid,
                     pid,
                     serial,
-                    hubris.unhalted_reads(),
                     can_flash,
                 )))
             }
