@@ -1,0 +1,17 @@
+[package]
+name = "humility-cmd-rhai"
+version = "0.1.0"
+edition = "2021"
+description = "run a Rhai script inside the debugger"
+
+[dependencies]
+humility = { workspace = true }
+humility-cmd = { workspace = true }
+humility-cli = { workspace = true }
+humility-log = { workspace = true }
+clap = { workspace = true }
+anyhow = { workspace = true }
+parse_int = { workspace = true }
+parse-size = { workspace = true }
+rhai = {workspace = true}
+comfy-table = "7.1.3"

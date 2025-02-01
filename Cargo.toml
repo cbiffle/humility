@@ -64,6 +64,7 @@ members = [
     "cmd/rencm",
     "cmd/rendmp",
     "cmd/repl",
+    "cmd/rhai",
     "cmd/ringbuf",
     "cmd/sensors",
     "cmd/spctrl",
@@ -79,6 +80,7 @@ members = [
     "xtask",
 ]
 resolver = "2"
+default-members = ["humility-bin"]
 
 [workspace.dependencies]
 # `git`-based deps
@@ -169,6 +171,7 @@ cmd-registers = { path = "./cmd/registers", package = "humility-cmd-registers" }
 cmd-reset = { path = "./cmd/reset", package = "humility-cmd-reset" }
 cmd-rencm = { path = "./cmd/rencm", package = "humility-cmd-rencm" }
 cmd-rendmp = { path = "./cmd/rendmp", package = "humility-cmd-rendmp" }
+cmd-rhai = { path = "./cmd/rhai", package = "humility-cmd-rhai" }
 cmd-ringbuf = { path = "./cmd/ringbuf", package = "humility-cmd-ringbuf" }
 cmd-rpc = { path = "./cmd/rpc", package = "humility-cmd-rpc" }
 cmd-sbrmi = { path = "./cmd/sbrmi", package = "humility-cmd-sbrmi" }
@@ -230,6 +233,7 @@ raw-cpuid = { version = "11.0.0", features = ["display"] }
 rayon = "1.7"
 reedline = "0.11.0"
 regex = "1.5.5"
+rhai = "1.21"
 ron = "0.7"
 rusb = "0.8.1"
 rustc-demangle = "0.1.21"

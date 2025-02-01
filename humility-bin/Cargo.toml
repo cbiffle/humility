@@ -78,6 +78,7 @@ cmd-registers = { workspace = true }
 cmd-reset = { workspace = true, optional = true }
 cmd-rencm = { workspace = true }
 cmd-rendmp = { workspace = true }
+cmd-rhai = {workspace = true}
 cmd-ringbuf = { workspace = true }
 cmd-rpc = { workspace = true }
 cmd-sbrmi = { workspace = true }

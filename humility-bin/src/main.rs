@@ -43,7 +43,9 @@ fn main() -> Result<()> {
         Subcommand::Other(v) => v[0].clone(),
     };
 
-    if let Err(err) = cmd::subcommand(&mut context, &commands) {
+    if subcmd == "rhai" {
+        cmd_rhai::run(context)?;
+    } else if let Err(err) = cmd::subcommand(&mut context, &commands) {
         eprintln!("humility {} failed: {:?}", subcmd, err);
         std::process::exit(1);
     }
